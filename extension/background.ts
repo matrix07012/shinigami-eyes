@@ -1,4 +1,4 @@
-﻿var browser: Browser = browser || chrome;
+var browser: Browser = browser || chrome;
 
 const PENDING_SUBMISSIONS = ':PENDING_SUBMISSIONS'
 const MIGRATION = ':MIGRATION'
@@ -15,6 +15,9 @@ const badIdentifiers: { [id: string]: true } = {};
 // * Archival and link shortening sites. (AR)
 // * Reddit bots.
 const badIdentifiersArray = [
+    'a.co',
+    'about.me=SN',
+    'amzn.to',
     'archive.is=AR',
     'archive.org=AR',
     'ask.fm=SN',
@@ -22,13 +25,17 @@ const badIdentifiersArray = [
     'bing.com',
     'bit.ly',
     'blogspot.com',
+    'buymeacoffee.com=SN',
+    'cash.app=SN',
+    'cash.me=SN',
     'change.org',
     'chrome.google.com',
     'curiouscat.me=SN',
+    'curiouscat.qa=SN',
     'deviantart.com=SN',
-    'discord-store.com=SN',
     'discord.gg=SN',
     'discordapp.com=SN',
+    'discord-store.com=SN',
     'disqus.com',
     'docs.google.com',
     'drive.google.com',
@@ -38,6 +45,7 @@ const badIdentifiersArray = [
     'etsy.com=SN',
     'facebook.com',
     'facebook.com/a',
+    'facebook.com/about',
     'facebook.com/ad_campaign',
     'facebook.com/ads',
     'facebook.com/advertising',
@@ -47,9 +55,11 @@ const badIdentifiersArray = [
     'facebook.com/buddylist.php',
     'facebook.com/bugnub',
     'facebook.com/business',
+    'facebook.com/c',
     'facebook.com/comment',
     'facebook.com/composer',
     'facebook.com/connect',
+    'facebook.com/dialog',
     'facebook.com/docs',
     'facebook.com/donate',
     'facebook.com/events',
@@ -66,6 +76,7 @@ const badIdentifiersArray = [
     'facebook.com/jobs',
     'facebook.com/l.php',
     'facebook.com/language.php',
+    'facebook.com/latest',
     'facebook.com/legal',
     'facebook.com/like.php',
     'facebook.com/local_surface',
@@ -74,58 +85,76 @@ const badIdentifiersArray = [
     'facebook.com/mbasic',
     'facebook.com/me',
     'facebook.com/media',
+    'facebook.com/memories',
     'facebook.com/menu',
     'facebook.com/messages',
     'facebook.com/nfx',
     'facebook.com/notes',
-    'facebook.com/notifications.php',
     'facebook.com/notifications',
+    'facebook.com/notifications.php',
     'facebook.com/nt',
     'facebook.com/page',
     'facebook.com/pages',
     'facebook.com/people',
     'facebook.com/permalink.php',
     'facebook.com/pg',
-    'facebook.com/photo.php',
     'facebook.com/photo',
+    'facebook.com/photo.php',
     'facebook.com/places',
     'facebook.com/policies',
     'facebook.com/privacy',
-    'facebook.com/profile.php',
     'facebook.com/profile',
+    'facebook.com/profile.php',
     'facebook.com/public',
     'facebook.com/rapid_report',
     'facebook.com/reactions',
     'facebook.com/salegroups',
     'facebook.com/search',
     'facebook.com/settings',
+    'facebook.com/share',
+    'facebook.com/share.php',
     'facebook.com/sharer.php',
     'facebook.com/shares',
     'facebook.com/stories',
     'facebook.com/story.php',
+    'facebook.com/support',
+    'facebook.com/timeline',
     'facebook.com/ufi',
+    'facebook.com/video',
     'facebook.com/watch',
+    'fb.me',
     'flickr.com=SN',
+    'gofundme.com=SN',
     'goo.gl',
     'google.com',
     'googleusercontent.com',
+    'http',
+    'https',
     'i.imgur.com',
     'i.reddituploads.com',
     'imdb.com=SN',
     'imgur.com',
+    'indiegogo.com=SN',
     'instagram.com=SN',
     'itunes.apple.com=SN',
     'ko-fi.com=SN',
+    'last.fm=SN',
     'linkedin.com=SN',
+    'linktr.ee=SN',
     'mail.google.com',
     'media.tumblr.com',
     'medium.com',
     'news.google.com',
+    'onlyfans.com=SN',
+    'open.spotify.com=SN',
     'patreon.com=SN',
     'paypal.com=SN',
     'paypal.me=SN',
+    'pinterest.com=SN',
     'play.google.com',
-    'plus.google.com',
+    'plus.google.com=SN',
+    'podcasts.apple.com=SN',
+    'poshmark.com=SN',
     'rationalwiki.org',
     'reddit.com',
     'reddit.com/r/all',
@@ -134,9 +163,9 @@ const badIdentifiersArray = [
     'reddit.com/user/animalfactsbot',
     'reddit.com/user/anti-gif-bot',
     'reddit.com/user/areyoudeaf',
-    'reddit.com/user/auto-xkcd37',
     'reddit.com/user/automoderator',
     'reddit.com/user/autotldr',
+    'reddit.com/user/auto-xkcd37',
     'reddit.com/user/biglebowskibot',
     'reddit.com/user/bots_rise_up',
     'reddit.com/user/cheer_up_bot',
@@ -159,8 +188,8 @@ const badIdentifiersArray = [
     'reddit.com/user/goodbot_badbot',
     'reddit.com/user/goodmod_badmod',
     'reddit.com/user/gyazo_bot',
-    'reddit.com/user/haiku-detector',
     'reddit.com/user/haikubot-1911',
+    'reddit.com/user/haiku-detector',
     'reddit.com/user/helperbot_',
     'reddit.com/user/hug-bot',
     'reddit.com/user/i_am_a_haiku_bot',
@@ -201,13 +230,13 @@ const badIdentifiersArray = [
     'reddit.com/user/smallsubbot',
     'reddit.com/user/snapshillbot',
     'reddit.com/user/sneakpeekbot',
-    'reddit.com/user/stabbot_crop',
     'reddit.com/user/stabbot',
+    'reddit.com/user/stabbot_crop',
     'reddit.com/user/steamnewsbot',
     'reddit.com/user/subjunctive__bot',
     'reddit.com/user/table_it_bot',
-    'reddit.com/user/the-paranoid-android',
     'reddit.com/user/thehelperdroid',
+    'reddit.com/user/the-paranoid-android',
     'reddit.com/user/thiscatmightcheeryou',
     'reddit.com/user/timestamp_bot',
     'reddit.com/user/timezone_bot',
@@ -232,10 +261,14 @@ const badIdentifiersArray = [
     'sites.google.com',
     'snapchat.com=SN',
     'soundcloud.com=SN',
+    'spotify.com=SN',
     'steamcommunity.com=SN',
     't.co',
+    't.me=SN',
     't.umblr.com',
+    'tapastic.com=SN',
     'tapatalk.com=SN',
+    'tiktok.com=SN',
     'tmblr.co',
     'tumblr.com',
     'twitch.tv=SN',
@@ -244,21 +277,30 @@ const badIdentifiersArray = [
     'twitter.com/hashtag',
     'twitter.com/home',
     'twitter.com/i',
+    'twitter.com/intent',
     'twitter.com/messages',
     'twitter.com/notifications',
     'twitter.com/search',
     'twitter.com/settings',
+    'twitter.com/share',
     'twitter.com/threader_app',
     'twitter.com/threadreaderapp',
     'twitter.com/who_to_follow',
     'vimeo.com=SN',
     'vk.com=SN',
+    'vm.tiktok.com=SN',
+    'wattpad.com=SN',
     'wikipedia.org',
     'wordpress.com',
+    'wp.me',
     'www.tumblr.com',
     'youtu.be',
     'youtube.com',
+    'youtube.com/account',
+    'youtube.com/feed',
+    'youtube.com/gaming',
     'youtube.com/playlist',
+    'youtube.com/premium',
     'youtube.com/redirect',
     'youtube.com/watch',
 ].map(x => {
@@ -377,20 +419,13 @@ browser.runtime.onMessage.addListener<ShinigamiEyesMessage, ShinigamiEyesMessage
 loadBloomFilter('transphobic');
 loadBloomFilter('t-friendly');
 
-
-
-function createContextMenu(text: string, id: ContextMenuCommand) {
-    browser.contextMenus.create({
-        id: id,
-        title: text,
-        contexts: ["link"],
-        targetUrlPatterns: [
+const socialNetworkPatterns = [
             "*://*.facebook.com/*",
             "*://*.youtube.com/*",
             "*://*.reddit.com/*",
             "*://*.twitter.com/*",
             "*://*.t.co/*",
-            "*://medium.com/*",
+            "*://*.medium.com/*",
             "*://disqus.com/*",
             "*://*.tumblr.com/*",
             "*://*.wikipedia.org/*",
@@ -398,7 +433,9 @@ function createContextMenu(text: string, id: ContextMenuCommand) {
             "*://*.google.com/*",
             "*://*.bing.com/*",
             "*://duckduckgo.com/*",
+];
 
+const homepagePatterns = [
             "*://*/",
             "*://*/?fbclid=*",
             "*://*/about*",
@@ -411,16 +448,45 @@ function createContextMenu(text: string, id: ContextMenuCommand) {
             "*://*/en/",
             "*://*/index.html",
             "*://*/index.php",
-        ]
+];
+
+const allPatterns = socialNetworkPatterns.concat(homepagePatterns);
+
+function createEntityContextMenu(text: string, id: ContextMenuCommand) {
+    browser.contextMenus.create({
+        id: id,
+        title: text,
+        contexts: ["link"],
+        targetUrlPatterns: allPatterns
     });
 }
 
-createContextMenu('Mark as anti-trans', 'mark-transphobic');
-createContextMenu('Mark as t-friendly', 'mark-t-friendly');
-createContextMenu('Clear', 'mark-none');
-browser.contextMenus.create({ type: 'separator' });
-createContextMenu('Settings', 'options');
-createContextMenu('Help', 'help');
+
+function createSystemContextMenu(text: string, id: ContextMenuCommand, separator?: boolean) {
+    browser.contextMenus.create({
+        id: id,
+        title: text,
+        contexts: ["all"],
+        type: separator ? 'separator' : 'normal',
+        documentUrlPatterns: allPatterns
+    });
+}
+
+
+browser.contextMenus.create({
+    title: '(Please right click on a link instead)', 
+    enabled: false,
+    contexts: ['page'],
+    documentUrlPatterns: socialNetworkPatterns
+});
+
+createEntityContextMenu('Mark as anti-trans', 'mark-transphobic');
+createEntityContextMenu('Mark as t-friendly', 'mark-t-friendly');
+createEntityContextMenu('Clear', 'mark-none');
+
+createSystemContextMenu('---', 'separator', true);
+createSystemContextMenu('Settings', 'options');
+createSystemContextMenu('Help', 'help');
 
 var uncommittedResponse: ShinigamiEyesSubmission = null;
 
